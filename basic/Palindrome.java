@@ -1,5 +1,8 @@
 package basic;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class Palindrome {
@@ -46,5 +49,14 @@ public class Palindrome {
         }else{
             System.out.println("The number is not a palindrome");
         }
+//        setting a list with same values
+        List<Integer> list = new ArrayList<>(Collections.nCopies(n, 0));
+        System.out.println(list.size());
+        System.out.println(list);
+        list.add(1);
+        System.out.println(list);
+        list.set(7,10);
+        System.out.println(list);
+        sc.close();  // Close the scanner to avoid resource leak
     }
 }
