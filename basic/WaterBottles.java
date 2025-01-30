@@ -6,7 +6,7 @@ public class WaterBottles {
 //
         int drunkBottles=0;
         int emptyBottles=0;
-        while(numBottles>0 || emptyBottles>=numExchanges){
+        while(numBottles>0){
             drunkBottles+=numBottles;// drink all filled bottles
             emptyBottles+=numBottles;numBottles=0;
             int converted=emptyBottles/numExchanges;
