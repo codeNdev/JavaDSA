@@ -27,7 +27,7 @@ public class AddToArrayForm {
                 ans.add(carry%10);carry/=10;
             }
         }
-        Collections.reverse(ans);
+        Collections.reverse(ans);// for in-place reversal of collections
         return ans;
     }
 }
