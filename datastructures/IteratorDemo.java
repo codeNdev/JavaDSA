@@ -1,4 +1,4 @@
-package ds;
+package datastructures;
 
 import java.util.ArrayList;
 import java.util.Iterator;

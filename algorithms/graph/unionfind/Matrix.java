@@ -1,4 +1,4 @@
-package Graph.UnionFind;
+package algorithms.graph.unionfind;
 
 import java.util.ArrayList;
 import java.util.HashSet;

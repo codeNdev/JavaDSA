@@ -8,7 +8,7 @@ public class TwoSums {
 //    Leetcode -- 01
     public int[] twoSum(int[] nums, int target) {
         int n=nums.length;
-//        Arrays.sort(nums);  // sorts array correctly
+//        Arrays.sort(nums);  // sorts ds.array correctly
         Map<Integer,Integer> valtoIdx=new HashMap<>();
         for(int i=0;i<n;i++){
             int reqd=target-nums[i];

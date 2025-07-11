@@ -17,7 +17,7 @@ public class Reverse {
             i++;
             j--;
         }
-//        used for debugging ==> it is just array representation in the form of a String
+//        used for debugging ==> it is just ds.array representation in the form of a String
 //        [1, 2, 3, 3, 2, 1]
 //        return Arrays.toString(arr); //Incorrect
 //        [C@50040f0c
