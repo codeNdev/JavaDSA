@@ -77,56 +77,54 @@ public class MaximizeSubarraysAfterRemovingOneConflictingPair {
 
         return res;
     }
+
     public long maxSubarrays(int n, int[][] conflictingPairs) {
-        // arr[i] = i+1
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = i + 1;
-        }
+        long valid = 0;
 
-        // adj.get(x) maps each smaller conflict-endpoint -> its count, keyed by the larger endpoint x
-        List<TreeMap<Integer, Integer>> adj = new ArrayList<>(n + 1);
+        // conflictingPoints[i] = list of points which conflict with i
+        List<List<Integer>> conflictingPoints = new ArrayList<>();
         for (int i = 0; i <= n; i++) {
-            adj.add(new TreeMap<>());
+            conflictingPoints.add(new ArrayList<>());
         }
 
-        // Build the multiset of conflicts
-        for (int[] edge : conflictingPairs) {
-            int u = edge[0], v = edge[1];
-            if (u > v) {
-                adj.get(u).put(v, adj.get(u).getOrDefault(v, 0) + 1);
-            } else {
-                adj.get(v).put(u, adj.get(v).getOrDefault(u, 0) + 1);
-            }
+        // Build the conflicting points list
+        for (int[] p : conflictingPairs) {
+            int a = Math.min(p[0], p[1]);
+            int b = Math.max(p[0], p[1]);
+            conflictingPoints.get(b).add(a);
         }
-        long count = 0;
-        int []diff=new int[n];
-        int i = 0;
-        for (int j = 0; j < n; j++) {
-            // the largest “forbidden start” for any pair ending at arr[j]
-            int block = arr[i] - 1;
-            TreeMap<Integer, Integer> map = adj.get(arr[j]);
-            if (!map.isEmpty()) {
-                block = map.lastKey();
-                Integer second = map.lowerKey(block);
-                int val=map.get(block);
-                if(val==1){
-                    int mx=arr[i];
-                    if(second!=null){
-                        mx=Math.max(mx,second);
-                    }
-                    diff[j]=block-mx;
+
+        int maxConflict = 0;
+        int secondMaxConflict = 0;
+
+        // extra[i] = number of extra subarrays by removing the conflicting point i
+        long[] extra = new long[n + 1];
+
+        // Process each end point of subarrays
+        for (int end = 1; end <= n; end++) {
+            // Check all conflicting points of 'end'
+            for (int u : conflictingPoints.get(end)) {
+                if (u >= maxConflict) {
+                    secondMaxConflict = maxConflict;
+                    maxConflict = u;
+                } else if (u > secondMaxConflict) {
+                    secondMaxConflict = u;
                 }
             }
-
-            // advance i until arr[i] > block
-            while (i < n && arr[i] <= block) {
-                i++;
-            }
-            count += (j - i + 1);
+            // Count valid subarrays ending at 'end'
+            valid += end - maxConflict;
+            // Add extra subarrays count
+            extra[maxConflict] += maxConflict - secondMaxConflict;
         }
-        long res=0;
 
-        return res;
+        // Find the maximum value in extra array
+        long maxExtra = 0;
+        for (long val : extra) {
+            if (val > maxExtra) {
+                maxExtra = val;
+            }
+        }
+
+        return valid + maxExtra;
     }
 }
