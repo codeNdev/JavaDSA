@@ -55,13 +55,45 @@ public class CycleDetectionInUndirectedGraph {
             if (!vis[i]) {
 
                 // If cycle found in any component, return true
-                if (isCycleBFS(i, adj, vis)) {
+//                if (isCycleBFS(i, adj, vis)) {
+//                    return true;
+//                }
+
+                // If a cycle is detected in any component, return true
+                if(isCycleDFS(i,-1,adj,vis)){
                     return true;
                 }
             }
         }
 
         // No cycle found in any component
+        return false;
+    }
+
+// DFS helper function to detect cycle
+// node   → current node
+// parent → node from which current node was visited
+//    In an undirected graph, during DFS, if we visit an already visited node that is not the parent,
+//    it indicates a back-edge, hence a cycle.
+    private boolean isCycleDFS(int node, int parent, ArrayList<ArrayList<Integer>> adj, boolean[] vis){
+//        Mark the node as visited
+        vis[node]=true;
+//        Traverse all adjacent nodes
+        for (int child:adj.get(node)){
+//        If the adjacent node is not visited, recurse
+            if(!vis[child]){
+
+                if(isCycleDFS(child,node,adj,vis)){
+                    return true; // cycle found in recursion
+                }
+            }
+//          If the adjacent node is visited and is NOT the parent,
+//          then a back-edge exists → cycle detected
+            else if (parent!=child){
+                return true;
+            }
+        }
+//      No cycle found from this path
         return false;
     }
 }
